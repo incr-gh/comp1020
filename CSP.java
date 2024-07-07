@@ -384,14 +384,33 @@ public class CSP {
 		long start = System.currentTimeMillis();
 		System.out.println("Problem 1. solutions");
 		Problem1();
-        //System.out.println("Time taken to solve Problem 1: " + String.valueOf(System.currentTimeMillis() - start)+"ms");
+        System.out.println("Time taken to solve Problem 1: " + String.valueOf(System.currentTimeMillis() - start)+"ms");
         start = System.currentTimeMillis();
 		System.out.println("Problem 2. solutions");
 		Problem2();
-        //System.out.println("Time taken to solve Problem 2: " + String.valueOf(System.currentTimeMillis() - start)+"ms");
-		System.out.println("Sudoku. solutions");
-		//Sudoku();
-		CPModel sudoku= SudokuModel(); 
+        System.out.println("Time taken to solve Problem 2: " + String.valueOf(System.currentTimeMillis() - start)+"ms");
+        start = System.currentTimeMillis();
+        System.out.println("Sudoku. solutions");
+        //Sample 17-clue sudoku board
+		Sudoku();
+		System.out.println("Time taken to solve 17-clue Sudoku: " + String.valueOf((float)(System.currentTimeMillis() - start)/1000)+"s");
+		
+	}
+	public static void Sudoku() {
+		int[][] board = {
+                {0, 0, 0, 8, 0, 1, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 4, 3},
+                {5, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 7, 0, 8, 0, 0},
+                {0, 0, 0, 0, 0, 0, 1, 0, 0},
+                {0, 2, 0, 0, 3, 0, 0, 0, 0},
+                {6, 0, 0, 0, 0, 0, 0, 7, 5},
+                {0, 0, 3, 4, 0, 0, 0, 0, 0},
+                {0, 0, 0, 2, 0, 0, 6, 0, 0}
+            };
+		CPModel sudoku= SudokuModel(board);
+		CPSearch se = new CPSearch();
+		Map<VarIntCP, Integer> mp= se.search(sudoku).get(0);
 	}
 	public static void example() {
 		VarIntCP X = new VarIntCP("X", 1, 10);
@@ -459,8 +478,8 @@ room and specific dependency constraints between the lectures are met.
 		for (int i=0; i<board.length;i++) {
 			for (int j=0; j<board.length; j++) {
 				String nm= String.valueOf(i)+String.valueOf(j);
-				if (1<= board[j][i] && 9<=board[j][i]) mat[i][j]= new VarIntCP(nm, board[j][i]);
-				mat[i][j]= new VarIntCP(nm, 1, 9);
+				if (1<= board[j][i] && board[j][i]<=9) mat[i][j]= new VarIntCP(nm, board[j][i]);
+				else mat[i][j]= new VarIntCP(nm, 1, 9);
 			}
 		}
 		
